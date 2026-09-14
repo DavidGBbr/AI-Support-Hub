@@ -16,7 +16,7 @@ Docker and Docker Compose are required. Node.js 22 / pnpm and Python 3.12 / uv a
 From the repository root, after `cp .env.example .env`:
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ( cd apps/api && uv run pytest )
 ( cd apps/api && uv run ruff check . )
 ( cd apps/api && uv run ruff format --check . )

@@ -61,7 +61,7 @@ Replace `TASK_ID` with the `task_id` from the POST response. Repeat the GET unti
 - `docker-compose.yml` — local source of truth for web, api, worker, postgres, and redis
 - `docs/onboarding.md` — diagnostic URLs and failure reading
 
-Internal container URLs use Compose DNS names (`postgres`, `redis`, `api`). The browser cannot use those names. `NEXT_PUBLIC_API_BASE_URL` must stay a host URL such as `http://localhost:8000`.
+Internal container URLs use Compose DNS names (`postgres`, `redis`, `api`). The browser cannot use those names. Compose sets `NEXT_PUBLIC_API_BASE_URL` from `API_PORT` and API CORS from `WEB_PORT`. For host-only `pnpm`/`uv` runs, keep `NEXT_PUBLIC_API_BASE_URL` aligned with `API_PORT` and `CORS_ORIGINS` aligned with `WEB_PORT`.
 
 ## Commands
 
@@ -98,7 +98,8 @@ A repository administrator should require that CI workflow and a review before m
 ## Troubleshooting
 
 - Copy `.env.example` to `.env` before `docker compose up`.
-- If the web page fails to reach the API, confirm `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`. Do not set it to `http://api:8000`.
+- If you change `WEB_PORT` or `API_PORT`, Compose updates CORS and the browser API URL. Also update `CORS_ORIGINS` and `NEXT_PUBLIC_API_BASE_URL` in `.env` if you run the API or web on the host.
+- If the web page fails to reach the API, confirm the browser is calling `http://localhost:<API_PORT>`. Do not set the API URL to `http://api:8000`.
 - If dependencies return 503, wait until `postgres` and `redis` are healthy: `docker compose ps`.
 - If the worker stays `PENDING`, confirm the `worker` service is running and Redis is healthy.
 - PostgreSQL image is `pgvector/pgvector:pg16` so the later vector extension is available. This baseline does not create RAG tables.
