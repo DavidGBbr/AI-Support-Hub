@@ -28,7 +28,7 @@ git clone git@github.com:DavidGBbr/AI-Support-Hub.git .
 git checkout <recorded-commit-sha>
 ```
 
-The VPS uses a read-only GitHub deploy key at `/opt/ai-support-hub/.ssh/github_deploy`. Keep that private key on the server only.
+If the host does not yet have a read-only GitHub deploy key, copy that recorded revision over SSH instead of storing a GitHub token in `.env.production`. Keep any deploy private key on the server only.
 
 ## Environment file
 
