@@ -1,8 +1,17 @@
-name: aisupport
+name: aisupport-prod
 
 # Production topology only. Do not use for local development.
+# Distinct project/network/volume names so this stack cannot reuse or
+# overwrite the local `aisupport` Compose resources if both files are
+# ever started on one host.
 # Start with:
 #   sudo docker compose --env-file .env.production -f compose.production.yml up -d --build
+
+x-logging: &default-logging
+  driver: local
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 services:
   postgres:
@@ -19,17 +28,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    logging: *default-logging
     networks:
       - aisupport
 
   redis:
     image: redis:7-alpine
     restart: unless-stopped
+    # Ephemeral by design: no volume. Recreating this container discards
+    # queued Celery jobs and task results. Acceptable while Redis is only
+    # the diagnostic-worker broker/result backend, not durable product state.
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 3s
       retries: 10
+    logging: *default-logging
     networks:
       - aisupport
 
@@ -61,6 +75,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
+    logging: *default-logging
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --root-path /api
     networks:
       - aisupport
@@ -78,6 +93,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    logging: *default-logging
     command: celery -A app.core.celery:celery_app worker --loglevel=info
     networks:
       - aisupport
@@ -108,12 +124,14 @@ services:
       timeout: 10s
       retries: 10
       start_period: 30s
+    logging: *default-logging
     networks:
       - aisupport
 
 networks:
   aisupport:
-    name: aisupport
+    name: aisupport-prod
 
 volumes:
   postgres_data:
+    name: aisupport-prod_postgres_data
