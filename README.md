@@ -2,7 +2,9 @@
 
 Local development baseline for a Next.js web app, a FastAPI API, PostgreSQL with pgvector, Redis, and a Celery worker.
 
-This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, Stripe, Sentry, Nginx/SSL, or VPS deployment.
+This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, Stripe, or Sentry.
+
+Local Compose is development-only. Production deploy, Nginx, TLS, backup, and rollback are documented in [docs/production.md](docs/production.md).
 
 ## Prerequisites
 
@@ -59,7 +61,9 @@ Replace `TASK_ID` with the `task_id` from the POST response. Repeat the GET unti
 - `apps/web` — Next.js App Router TypeScript app
 - `apps/api` — shared FastAPI and Celery Python package, SQLAlchemy, Alembic
 - `docker-compose.yml` — local source of truth for web, api, worker, postgres, and redis
-- `docs/onboarding.md` — diagnostic URLs and failure reading
+- `compose.production.yml` — VPS topology with loopback web/API ports and no source mounts
+- `docs/onboarding.md` — local diagnostic URLs and failure reading
+- `docs/production.md` — production deploy, verification, backup, and rollback
 
 Internal container URLs use Compose DNS names (`postgres`, `redis`, `api`). The browser cannot use those names. Compose sets `NEXT_PUBLIC_API_BASE_URL` from `API_PORT` and API CORS from `WEB_PORT`. For host-only `pnpm`/`uv` runs, keep `NEXT_PUBLIC_API_BASE_URL` aligned with `API_PORT` and `CORS_ORIGINS` aligned with `WEB_PORT`.
 
@@ -94,6 +98,14 @@ Migrations run inside the API container because PostgreSQL is not published to t
 See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests run `.github/workflows/ci.yml`.
 
 A repository administrator should require that CI workflow and a review before merging to `main`. GitHub branch protection is a manual repository setting.
+
+## Production
+
+Do not run `docker-compose.yml` on the public VPS. That file mounts source, uses `pnpm dev` / Uvicorn `--reload`, and publishes web/API on all interfaces.
+
+Production uses `compose.production.yml` behind host Nginx. Web and API bind to `127.0.0.1` only. PostgreSQL and Redis stay on the Docker network.
+
+Operator runbook: [docs/production.md](docs/production.md).
 
 ## Troubleshooting
 
