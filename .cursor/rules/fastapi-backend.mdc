@@ -1,0 +1,30 @@
+---
+description: FastAPI routers, services, repositories, settings, SQLAlchemy, Alembic, and Celery in apps/api
+globs: apps/api/**/*.py,apps/api/pyproject.toml,apps/api/alembic.ini,apps/api/alembic/**
+---
+
+# FastAPI backend
+
+Applies only to Python and API config under `apps/api`. Do not restate frontend or Compose ownership here.
+
+## Layout
+
+- Routers in `app/api/` stay thin: validate, call a service, return a dict or Pydantic model.
+- Services in `app/services/` own orchestration and business rules.
+- Repositories in `app/repositories/` own queries and writes. Skip a repository for a one-line helper that is not persistence.
+- Tasks in `app/tasks/` are Celery units of work. Dispatch them from a service, not from a fat router.
+
+## Current stack
+
+- Settings: `pydantic-settings` in `app/core/config.py`. New secrets and URLs go there and in `.env.example`.
+- Persistence: SQLAlchemy 2 + Alembic. Schema changes are migrations, applied with `docker compose exec api alembic upgrade head`.
+- HTTP: FastAPI. Keep OpenAPI useful; do not hide contracts behind untyped `dict` when a model already exists nearby.
+- Async work: Celery + Redis. The HTTP request returns a `task_id` (or equivalent) immediately.
+
+## Do not add by default
+
+- `Protocol` / ABC repositories, generic `BaseService`, Result/Either wrappers, or unit-of-work layers around a single query.
+- A workflow engine, task registry, or orchestrator around one Celery task.
+- A new dependency that duplicates FastAPI, SQLAlchemy, Pydantic, Redis, or Celery.
+
+Existing diagnostics (`/health`, `/health/dependencies`, `/diagnostics/worker`) are the pattern to copy.

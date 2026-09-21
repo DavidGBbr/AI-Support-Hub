@@ -1,0 +1,17 @@
+---
+description: Observable-behavior tests, regression coverage, and honest verification for apps tests and CI
+globs: apps/api/tests/**/*.py,apps/web/**/*.test.ts,apps/web/**/*.test.tsx,apps/web/**/*.spec.ts,apps/web/**/*.spec.tsx,.github/workflows/**/*.yml,.github/workflows/**/*.yaml
+---
+
+# Testing and quality
+
+Applies to tests and CI. Command lists live in `README.md` / `CONTRIBUTING.md`; `verify-change` chooses which ones to run.
+
+- Test behavior a caller can observe: HTTP status and body, worker `state`/`result`, rendered loading/error/success. Do not assert on private helper structure.
+- Add or update a regression test when fixing a bug. Cover the failing input.
+- Mock only at external boundaries (network, Redis, Postgres, LLM). Do not mock the service under test.
+- Web changes: `pnpm lint`, `pnpm typecheck`, `pnpm format:check` in `apps/web`.
+- API changes: `uv run ruff check .`, `uv run ruff format --check .`, `uv run pytest` in `apps/api`.
+- Schema changes: include an Alembic revision and say whether `alembic upgrade head` ran.
+- CI (`.github/workflows/ci.yml`) already runs web lint/typecheck and API Ruff/Pytest. Do not add a workflow just to document a rule.
+- Report commands that ran, their result, and checks that were skipped. Never claim a green suite that was not executed.

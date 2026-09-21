@@ -11,6 +11,14 @@ Docker and Docker Compose are required. Node.js 22 / pnpm and Python 3.12 / uv a
 3. Open a pull request with the template. Fill in problem, scope, verification, migration/configuration, and documentation.
 4. Wait for the `CI` GitHub Actions workflow to finish. It runs web install/lint/typecheck and API uv sync, Ruff, and Pytest.
 
+## Agent instructions
+
+Start with [AGENTS.md](AGENTS.md). Cursor rules live in `.cursor/rules/`. Project skills live in `.cursor/skills/`.
+
+Use `scope-guard` when a change starts expanding past the approved plan, adding speculative layers, or future-proofing without a current requirement.
+
+`verify-change` is required after code changes. It maps the touched files to the existing web, API, migration, Compose, and docs checks.
+
 ## Local checks before you push
 
 From the repository root, after `cp .env.example .env`:
