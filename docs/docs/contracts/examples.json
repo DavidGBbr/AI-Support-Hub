@@ -1,0 +1,196 @@
+{
+  "knowledge_bases_empty": {
+    "items": [],
+    "next_cursor": null
+  },
+  "knowledge_bases_ready": {
+    "items": [
+      {
+        "name": "Base de demonstracao",
+        "description": "Dados ficticios do contrato.",
+        "id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+        "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+        "created_at": "2026-01-01T00:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "document_awaiting_upload": {
+    "id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+    "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+    "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+    "filename": "suporte.md",
+    "content_type": "text/markdown",
+    "size_bytes": 128,
+    "status": "awaiting_upload",
+    "failure_code": null,
+    "created_at": "2026-01-01T00:00:00Z",
+    "updated_at": "2026-01-01T00:00:00Z"
+  },
+  "document_queued": {
+    "id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+    "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+    "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+    "filename": "suporte.md",
+    "content_type": "text/markdown",
+    "size_bytes": 128,
+    "status": "queued",
+    "failure_code": null,
+    "created_at": "2026-01-01T00:00:00Z",
+    "updated_at": "2026-01-01T00:00:00Z"
+  },
+  "document_processing": {
+    "id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+    "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+    "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+    "filename": "suporte.md",
+    "content_type": "text/markdown",
+    "size_bytes": 128,
+    "status": "processing",
+    "failure_code": null,
+    "created_at": "2026-01-01T00:00:00Z",
+    "updated_at": "2026-01-01T00:00:00Z"
+  },
+  "document_ready": {
+    "id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+    "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+    "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+    "filename": "suporte.md",
+    "content_type": "text/markdown",
+    "size_bytes": 128,
+    "status": "ready",
+    "failure_code": null,
+    "created_at": "2026-01-01T00:00:00Z",
+    "updated_at": "2026-01-01T00:00:00Z"
+  },
+  "document_failed": {
+    "id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+    "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+    "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+    "filename": "suporte.md",
+    "content_type": "text/markdown",
+    "size_bytes": 128,
+    "status": "failed",
+    "failure_code": "PROCESSING_FAILED",
+    "created_at": "2026-01-01T00:00:00Z",
+    "updated_at": "2026-01-01T00:00:00Z"
+  },
+  "chat_answered": {
+    "conversation": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "user_message": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e32",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "conversation_id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "role": "user",
+      "content": "Como pedir suporte?",
+      "citations": [],
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "assistant_message": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e33",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "conversation_id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "role": "assistant",
+      "content": "[Mock] Entre em contato pelo portal de suporte.",
+      "citations": [
+        {
+          "document_id": "f27cf9e2-c0db-4a76-8e4c-ec8848a41715",
+          "document_name": "suporte.md",
+          "chunk_id": "43e8bdbe-38b3-498e-ae64-ed41bf1129df",
+          "page": null,
+          "excerpt": "Exemplo ficticio: entre em contato pelo portal de suporte."
+        }
+      ],
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "outcome": "answered"
+  },
+  "chat_insufficient_context": {
+    "conversation": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "knowledge_base_id": "bc23a136-b564-4877-9d61-8dd012ba8ef8",
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "user_message": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e32",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "conversation_id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "role": "user",
+      "content": "Como pedir suporte?",
+      "citations": [],
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "assistant_message": {
+      "id": "9a70aa7e-5657-49ef-92d7-581f98f59e33",
+      "workspace_id": "569396dd-dc68-41f7-bd24-63d4269f0a77",
+      "conversation_id": "9a70aa7e-5657-49ef-92d7-581f98f59e31",
+      "role": "assistant",
+      "content": "Nao encontrei informacoes suficientes nos documentos.",
+      "citations": [],
+      "created_at": "2026-01-01T00:00:00Z"
+    },
+    "outcome": "insufficient_context"
+  },
+  "error_400": {
+    "error": {
+      "code": "INVALID_CURSOR",
+      "message": "Cursor invalido para esta consulta.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_401": {
+    "error": {
+      "code": "UNAUTHENTICATED",
+      "message": "Autenticacao necessaria.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_404": {
+    "error": {
+      "code": "NOT_FOUND",
+      "message": "Recurso nao encontrado.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_405": {
+    "error": {
+      "code": "METHOD_NOT_ALLOWED",
+      "message": "Metodo nao permitido.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_409": {
+    "error": {
+      "code": "DOCUMENTS_NOT_READY",
+      "message": "A base ainda nao possui documentos prontos.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_422": {
+    "error": {
+      "code": "VALIDATION_ERROR",
+      "message": "Verifique os campos enviados.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_500": {
+    "error": {
+      "code": "INTERNAL_ERROR",
+      "message": "Nao foi possivel concluir a solicitacao.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  },
+  "error_503": {
+    "error": {
+      "code": "SERVICE_UNAVAILABLE",
+      "message": "Servico temporariamente indisponivel.",
+      "request_id": "ef84bfec-15e5-4d25-a635-77d26d3f84ae"
+    }
+  }
+}
