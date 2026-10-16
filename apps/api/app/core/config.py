@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     redis_db: int = 0
     celery_result_db: int = 1
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    stripe_secret_key: str = ""
+    stripe_publishable_key: str = ""
+    stripe_price_id: str = ""
+    stripe_webhook_secret: str = ""
+    web_base_url: str = "http://localhost:3000"
 
     @property
     def sqlalchemy_url(self) -> str:
