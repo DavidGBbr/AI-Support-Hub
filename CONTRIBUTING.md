@@ -13,11 +13,11 @@ Docker and Docker Compose are required. Node.js 22 / pnpm and Python 3.12 / uv a
 
 ## Agent instructions
 
-Start with [AGENTS.md](AGENTS.md). Cursor rules live in `.cursor/rules/`. Project skills live in `.cursor/skills/`.
+Start with [AGENTS.md](AGENTS.md). Claude Code loads it through [CLAUDE.md](CLAUDE.md). Rules live in `.claude/rules/`: two always apply, the others load only for matching paths. Project skills live in `.claude/skills/`. Other agents should read `AGENTS.md` and these folders directly.
 
 Use `scope-guard` when a change starts expanding past the approved plan, adding speculative layers, or future-proofing without a current requirement.
 
-`verify-change` is required after code changes. It maps the touched files to the existing web, API, migration, Compose, and docs checks.
+`verify-change` is required after code changes. It maps the diff to the project's documented checks.
 
 ## Local checks before you push
 

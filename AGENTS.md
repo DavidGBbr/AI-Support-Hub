@@ -1,6 +1,6 @@
 # Agent instructions — AI Support Hub
 
-Provider-agnostic. Read this file first. Cursor rules add area context. Skills run only when their triggers match.
+Provider-agnostic. Read this file first. Rules in `.claude/rules/` add area context. Skills run only when their triggers match.
 
 ## Product and map
 
@@ -20,7 +20,7 @@ Commands, URLs, and runbooks live in `README.md`, `CONTRIBUTING.md`, `docs/onboa
 ## Instruction order
 
 1. This file.
-2. Cursor rules that match the files you are editing.
+2. Rules in `.claude/rules/` that match the files you are editing.
 3. A project skill when its trigger matches.
 4. The approved task plan for ticket work.
 

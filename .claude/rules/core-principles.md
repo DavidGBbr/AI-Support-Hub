@@ -1,8 +1,3 @@
----
-description: Always-on KISS, YAGNI, and minimum-scope decisions for this repository
-alwaysApply: true
----
-
 # Core principles
 
 Follow `AGENTS.md` for product map, boundaries, and command pointers. This rule only constrains how large a change may grow.

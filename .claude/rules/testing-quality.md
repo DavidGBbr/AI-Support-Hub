@@ -1,6 +1,12 @@
 ---
-description: Observable-behavior tests, regression coverage, and honest verification for apps tests and CI
-globs: apps/api/tests/**/*.py,apps/web/**/*.test.ts,apps/web/**/*.test.tsx,apps/web/**/*.spec.ts,apps/web/**/*.spec.tsx,.github/workflows/**/*.yml,.github/workflows/**/*.yaml
+paths:
+  - "apps/api/tests/**/*.py"
+  - "apps/web/**/*.test.ts"
+  - "apps/web/**/*.test.tsx"
+  - "apps/web/**/*.spec.ts"
+  - "apps/web/**/*.spec.tsx"
+  - ".github/workflows/**/*.yml"
+  - ".github/workflows/**/*.yaml"
 ---
 
 # Testing and quality

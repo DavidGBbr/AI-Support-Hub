@@ -1,8 +1,3 @@
----
-description: Always-on ownership and dependency direction for apps/web, apps/api, Compose, and docs
-alwaysApply: true
----
-
 # Monorepo architecture
 
 This is a two-app Compose monorepo. Keep ownership and dependency direction as they are.

@@ -1,6 +1,6 @@
 ---
-description: Next.js App Router, TypeScript, and local fetch/state rules for apps/web
-globs: apps/web/**
+paths:
+  - "apps/web/**"
 ---
 
 # Next.js frontend

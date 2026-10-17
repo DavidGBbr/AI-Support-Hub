@@ -1,6 +1,9 @@
 ---
-description: FastAPI routers, services, repositories, settings, SQLAlchemy, Alembic, and Celery in apps/api
-globs: apps/api/**/*.py,apps/api/pyproject.toml,apps/api/alembic.ini,apps/api/alembic/**
+paths:
+  - "apps/api/**/*.py"
+  - "apps/api/pyproject.toml"
+  - "apps/api/alembic.ini"
+  - "apps/api/alembic/**"
 ---
 
 # FastAPI backend
