@@ -1,32 +1,26 @@
 ---
 name: verify-change
-description: Use when finishing a code change, before claiming done, opening a PR, or saying tests passed; when choosing lint, typecheck, pytest, Ruff, Alembic, or Compose commands; after edits to apps/web, apps/api, Alembic, docker-compose, env files, CI, or operational docs; or when told CI will catch it, tests feel fine, skip formatters, or unit tests are enough.
+description: Use when finishing a change, before claiming completion or opening a pull request; when selecting checks for the actual diff; after edits to application code, configuration, automation, data definitions, or operational documentation; or when pressure would replace evidence with assumption.
 ---
 
 # verify-change
 
-Map the real diff to existing commands. User hurry is not a skip list.
+Map the real diff to the project's documented checks. Urgency is not a skip list.
 
-## 1. Map files → checks
+## 1. Map the diff to checks
 
-From `git diff` (not from memory):
+Read the actual diff, then consult the project's contribution guide, automation, and nearby documentation. Identify the checks that cover each changed area.
 
-| Touched | Run (from that app / repo root) |
-| --- | --- |
-| `apps/web/**` | `pnpm lint`, `pnpm typecheck`, `pnpm format:check` in `apps/web` |
-| `apps/api/**` Python (not only a revision file) | `uv run ruff check .`, `uv run ruff format --check .`, `uv run pytest` in `apps/api` |
-| Alembic / models / schema | Also apply or report `docker compose exec api alembic upgrade head` |
-| Compose, Dockerfiles, `.env.example` | Read the diff; `docker compose config` and/or start only if those files changed. Pytest does not verify Compose. |
-| README / `docs/` / CONTRIBUTING command or URL changes | Re-read the page. Do not run the VPS runbook unless ops files changed. |
+Run only the checks relevant to the areas changed. For data definitions, include the documented validation or migration step. For configuration and operational changes, validate the configuration or execution path they affect. For documentation changes, reread the rendered instructions and confirm referenced paths and commands exist.
 
-Do not run unrelated suites to look busy. Do not skip a mapped check because CI will catch it, tests felt fine this morning, or the user asked to hurry.
+Do not run unrelated suites to look busy. Do not skip a mapped check because automation will catch it, a prior run looked healthy, or someone asks to hurry.
 
 ## 2. Inspect the diff
 
-Before done, scan for: scope creep, duplication, new dependencies, new env vars without `.env.example`, migrations without an upgrade note, missing docs when behavior / contract / commands / ops changed.
+Before completion, scan for scope creep, duplication, new dependencies, undocumented configuration, data changes without an execution note, and missing documentation when behavior, contracts, commands, or operations changed.
 
 ## 3. Report
 
-List each command, cwd, exit status. List skipped checks with why (stack not running, tool missing). Never invent passing output. Never claim done with a red suite. A check not executed is "not run," not green.
+List each check, where it ran, and its exit status. List skipped checks with the reason. Never invent passing output. Never claim completion with a failing check. A check that did not run is not green.
 
-If a mapped command cannot run, still do not declare the change verified.
+If a mapped check cannot run, report the limitation and do not describe the change as fully verified.

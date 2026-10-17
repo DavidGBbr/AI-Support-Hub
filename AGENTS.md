@@ -4,7 +4,7 @@ Provider-agnostic. Read this file first. Cursor rules add area context. Skills r
 
 ## Product and map
 
-MVP: B2B customer-support SaaS with RAG. Auth, workspaces, knowledge bases, async document processing, cited chat, Stripe, observability, and deploy/rollback. Deadline: 2026-10-21.
+MVP: B2B customer-support SaaS with RAG. Auth, workspaces, knowledge bases, async document processing, cited chat, Stripe, observability, and deploy/rollback.
 
 This checkout is a small local baseline. Product features above are not in the tree yet. Do not add them unless the approved task says so.
 
@@ -15,15 +15,14 @@ This checkout is a small local baseline. Product features above are not in the t
 | `docker-compose.yml` | Local web, api, worker, postgres, redis. |
 | `docs/` | Onboarding and operator docs. |
 
-Commands, URLs, and runbooks live in `README.md`, `CONTRIBUTING.md`, and `docs/onboarding.md`. Do not copy those runbooks here.
+Commands, URLs, and runbooks live in `README.md`, `CONTRIBUTING.md`, `docs/onboarding.md`, and `docs/production.md`. Do not copy those runbooks here.
 
 ## Instruction order
 
-1. Workspace `AGENT.md` when this repo sits inside davidspace.
-2. This file.
-3. Cursor rules that match the files you are editing.
-4. A project skill when its trigger matches.
-5. The approved vault `tasks/<ID>/plan.md` for ticket work.
+1. This file.
+2. Cursor rules that match the files you are editing.
+3. A project skill when its trigger matches.
+4. The approved task plan for ticket work.
 
 A more specific source wins on that topic. Do not fork a second copy of the same rule.
 
