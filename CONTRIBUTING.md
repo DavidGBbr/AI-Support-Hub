@@ -26,6 +26,18 @@ docker compose up --build -d
 docker compose exec api alembic upgrade head
 ```
 
+## Claude Code hooks
+
+If you use Claude Code, `.claude/settings.json` registers five small hooks. They are POSIX `sh` scripts in `.claude/hooks/` and need no tool beyond Git and `grep`; the formatter and checks are skipped when pnpm or uv are not installed.
+
+- `guard-secrets` blocks writing private keys or tokens and staging `.env`, `.env.production`, `.ssh/` or `backups/`.
+- `guard-git` blocks force push, pushing to `main`, `git reset --hard`, and `--no-verify`.
+- `format-on-edit` runs Prettier on edited web files and Ruff on edited API files.
+- `verify-on-stop` lists the checks above that match your changed files. It does not run them.
+- `session-context` prints the branch, `.env` and Compose state at session start.
+
+To turn all of them off for yourself, set `"disableAllHooks": true` in `.claude/settings.local.json`, which is git-ignored.
+
 ## Branch protection
 
 A repository administrator should require the `CI` workflow and at least one review before merging to `main`. This is a GitHub repository setting; the workflow cannot enable it by itself.
