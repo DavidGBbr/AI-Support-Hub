@@ -1,0 +1,9 @@
+# Core principles
+
+Follow `AGENTS.md` for product map, boundaries, and command pointers. This rule only constrains how large a change may grow.
+
+- Implement the smallest complete change that satisfies the current acceptance criteria.
+- Reuse the local pattern in the same layer before introducing a new abstraction.
+- Do not add a dependency, flag, fallback, base class, interface, or compatibility path unless the current requirement needs it now.
+- Justify new complexity with a current need: a named plan item or a second concrete call site. "Future-proofing" is not a justification.
+- If the work needs an architecture or plan change, stop and report it. Do not expand the diff to make the plan fit.

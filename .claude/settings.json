@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/session-context.sh\"" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/guard-secrets.sh\"" }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/guard-secrets.sh\"" },
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/guard-git.sh\"" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/format-on-edit.sh\"" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "sh \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/verify-on-stop.sh\"" }
+        ]
+      }
+    ]
+  }
+}

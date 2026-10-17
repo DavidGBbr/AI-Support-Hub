@@ -11,6 +11,14 @@ Docker and Docker Compose are required. Node.js 22 / pnpm and Python 3.12 / uv a
 3. Open a pull request with the template. Fill in problem, scope, verification, migration/configuration, and documentation.
 4. Wait for the `CI` GitHub Actions workflow to finish. It runs web install/lint/typecheck and API uv sync, Ruff, and Pytest.
 
+## Agent instructions
+
+Start with [AGENTS.md](AGENTS.md). Claude Code loads it through [CLAUDE.md](CLAUDE.md). Rules live in `.claude/rules/`: two always apply, the others load only for matching paths. Project skills live in `.claude/skills/`. Other agents should read `AGENTS.md` and these folders directly.
+
+Use `scope-guard` when a change starts expanding past the approved plan, adding speculative layers, or future-proofing without a current requirement.
+
+`verify-change` is required after code changes. It maps the diff to the project's documented checks.
+
 ## Local checks before you push
 
 From the repository root, after `cp .env.example .env`:
@@ -25,6 +33,18 @@ docker compose up --build -d
 ( cd apps/web && pnpm format:check )
 docker compose exec api alembic upgrade head
 ```
+
+## Claude Code hooks
+
+If you use Claude Code, `.claude/settings.json` registers five small hooks. They are POSIX `sh` scripts in `.claude/hooks/` and need no tool beyond Git and `grep`; the formatter and checks are skipped when pnpm or uv are not installed.
+
+- `guard-secrets` blocks writing private keys or tokens and staging `.env`, `.env.production`, `.ssh/` or `backups/`.
+- `guard-git` blocks force push, pushing to `main`, `git reset --hard`, and `--no-verify`.
+- `format-on-edit` runs Prettier on edited web files and Ruff on edited API files.
+- `verify-on-stop` lists the checks above that match your changed files. It does not run them.
+- `session-context` prints the branch, `.env` and Compose state at session start.
+
+To turn all of them off for yourself, set `"disableAllHooks": true` in `.claude/settings.local.json`, which is git-ignored.
 
 ## Branch protection
 
