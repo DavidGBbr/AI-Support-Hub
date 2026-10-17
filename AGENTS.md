@@ -54,4 +54,4 @@ Ship the smallest complete change that meets the current acceptance criteria.
 ## Skills
 
 - `scope-guard` — use when a change starts growing past the plan, or when asked to future-proof, generalize, or add layers that the current criteria do not require.
-- `verify-change` — required after code changes, before claiming done. Maps the real diff to the existing web / API / Alembic / Compose / docs checks.
+- `verify-change` — required after code changes, before claiming done. Maps the real diff to the project's documented checks.
