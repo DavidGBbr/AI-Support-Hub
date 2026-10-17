@@ -1,12 +1,13 @@
 #!/bin/sh
 # PostToolUse (Edit|Write). Formats the edited file with the repo's own formatter.
 # Skips quietly when the host tool or its dependencies are missing. Never blocks.
+# Windows paths arrive JSON-escaped (C:\\Users\\...), so squeeze the doubled slashes.
 payload=$(cat | tr '\134' '/')
-file=$(printf '%s' "$payload" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1)
+file=$(printf '%s' "$payload" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1 | tr -s '/')
 [ -n "$file" ] || exit 0
 
 root=${CLAUDE_PROJECT_DIR:-$(pwd)}
-root=$(printf '%s' "$root" | tr '\134' '/')
+root=$(printf '%s' "$root" | tr '\134' '/' | tr -s '/')
 rel=${file#"$root"/}
 [ -f "$root/$rel" ] || exit 0
 
