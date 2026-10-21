@@ -2,6 +2,8 @@
 
 Local development baseline for a Next.js web app, a FastAPI API, PostgreSQL with pgvector, Redis, and a Celery worker.
 
+Live site: https://portfolio-joaovs.vercel.app
+
 This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, or Sentry. The Stripe billing of a workspace is in `apps/api` and only runs in Stripe test mode.
 
 Local Compose is development-only. Production deploy, Nginx, TLS, backup, and rollback are documented in [docs/production.md](docs/production.md).
