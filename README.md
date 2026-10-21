@@ -2,7 +2,9 @@
 
 Local development baseline for a Next.js web app, a FastAPI API, PostgreSQL with pgvector, Redis, and a Celery worker.
 
-This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, Stripe, or Sentry.
+Live site: https://portfolio-joaovs.vercel.app
+
+This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, or Sentry. The Stripe billing of a workspace is in `apps/api` and only runs in Stripe test mode.
 
 Local Compose is development-only. Production deploy, Nginx, TLS, backup, and rollback are documented in [docs/production.md](docs/production.md).
 
@@ -44,6 +46,8 @@ PostgreSQL and Redis stay on the Compose network. They are not published to the 
 | Web diagnostics page | http://localhost:3000 |
 | API liveness | http://localhost:8000/health |
 | API PostgreSQL + Redis check | http://localhost:8000/health/dependencies |
+| Plan catalog | http://localhost:8000/v1/plans |
+| Subscription of a workspace | http://localhost:8000/v1/workspaces/{workspace_id}/billing/subscription |
 | Swagger | http://localhost:8000/docs |
 | OpenAPI | http://localhost:8000/openapi.json |
 
@@ -92,6 +96,31 @@ Migrations run inside the API container because PostgreSQL is not published to t
 - `GET /health/dependencies` checks PostgreSQL and Redis. A failed dependency returns HTTP 503 with `postgres` and `redis` set to `ok` or `error`.
 - `POST /diagnostics/worker` queues `test_worker` and returns `task_id`.
 - `GET /diagnostics/worker/{task_id}` returns Celery `state` and `result`.
+
+## Billing
+
+The API owns the subscription of a workspace. It follows ADR 0001: the workspace owns the billing and holds at most one current subscription.
+
+| Route | What it does |
+| --- | --- |
+| `GET /v1/plans` | Public plan catalog with the knowledge base limit of each plan. |
+| `POST /v1/workspaces/{workspace_id}/billing/checkout` | Creates a Stripe Checkout session for the Pro plan. |
+| `POST /v1/workspaces/{workspace_id}/billing/portal` | Opens the Stripe billing portal of the customer of the workspace. |
+| `GET /v1/workspaces/{workspace_id}/billing/subscription` | Current plan and status of the workspace. |
+| `POST /webhooks/stripe` | Receives Stripe events. Operational route, outside the `/v1` product contract. |
+
+- Only Stripe test mode is supported. The API refuses to start with a live key.
+- The webhook verifies the signature, stores the event and hands it to the worker. The state changes in the worker, so the webhook answers fast.
+- A stored event is applied once. An event that arrives out of order is ignored, and a canceled subscription is never revived.
+- The billing routes need the bearer token of `BILLING_ADMIN_TOKEN`. It stands in for the server side membership resolution of ADR 0001 and is replaced when the authentication and workspace cards land. With no token configured the routes answer 503.
+
+Local setup:
+
+```bash
+docker compose run --rm api alembic upgrade head
+```
+
+See [docs/onboarding.md](docs/onboarding.md) for the Stripe test mode details.
 
 ## Git workflow
 

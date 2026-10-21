@@ -15,4 +15,5 @@ celery_app.conf.update(
     task_track_started=True,
 )
 
+from app.tasks.billing import apply_stripe_event  # noqa: E402, F401
 from app.tasks.test_worker import test_worker as _test_worker  # noqa: E402, F401
