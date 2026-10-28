@@ -12,6 +12,11 @@ dependencies = [
     "redis>=5.2.0",
     "celery[redis]>=5.4.0",
     "pydantic-settings>=2.6.0",
+    "openai>=1.54.0",
+    "pgvector>=0.3.6",
+    "pypdf>=5.1.0",
+    "tiktoken>=0.8.0",
+    "python-multipart>=0.0.17",
 ]
 
 [dependency-groups]
@@ -31,6 +36,7 @@ src = ["app", "tests"]
 
 [tool.ruff.lint]
 select = ["B", "E", "F", "I", "UP"]
+ignore = ["B008"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
@@ -41,3 +47,6 @@ known-first-party = ["app"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = [
+    "pgvector: integration tests requiring PostgreSQL with the pgvector extension",
+]

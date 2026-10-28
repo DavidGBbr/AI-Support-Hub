@@ -285,7 +285,8 @@ Schema migrations must be backward compatible before a release can be rolled bac
 - Certificate renewal (after TLS exists): `sudo certbot renew --dry-run` and `systemctl list-timers | grep certbot`
 - Disk: `df -h /` and `sudo du -sh /var/lib/docker /opt/ai-support-hub/backups`
 - Docker logs: bounded per production service in `compose.production.yml` (`local` driver, `10m` x `3` files). Confirm with `sudo docker inspect --format '{{.HostConfig.LogConfig.Type}} {{.HostConfig.LogConfig.Config}}' <container>`
-- Redis: ephemeral. Recreating the Redis container discards queued diagnostic jobs and task results. Re-run the loopback worker dispatch after an upgrade if you need a fresh result.
+- Redis: persistent named volume with AOF and appendfsync always. Preserve this volume while tasks are outstanding; do not use down --volumes. Before upgrading from the old ephemeral configuration, drain or migrate outstanding tasks.
+- Outbox: keep the outbox service running, monitor retry logs and the age of due document_outbox rows, and follow [ingestion rollout](architecture/document-ingestion.md) before applying migration 0003. PostgreSQL backups now include durable processing intents.
 - Docker status: `sudo systemctl is-enabled docker containerd nginx` and `sudo systemctl is-active docker containerd nginx`
 - Published ports: `sudo ss -ltnp` — expect `22`, `80`, `443` (after TLS), plus loopback `3000`/`8000`
 - Secrets: add values only to `/opt/ai-support-hub/.env.production` or the future CI secret store. Never commit them.

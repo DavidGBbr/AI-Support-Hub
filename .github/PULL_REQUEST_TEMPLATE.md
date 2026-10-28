@@ -8,7 +8,7 @@
 
 ## Verification
 
-- [ ] `docker compose up --build` still starts web, api, worker, postgres, and redis
+- [ ] `docker compose up --build` still starts web, api, worker, outbox, postgres, and redis
 - [ ] Relevant pnpm / uv / docker compose checks ran locally
 - [ ] New or updated tests cover the change
 

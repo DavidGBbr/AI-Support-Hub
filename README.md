@@ -1,8 +1,8 @@
 # AI Support Hub
 
-Local development baseline for a Next.js web app, a FastAPI API, PostgreSQL with pgvector, Redis, and a Celery worker.
+Local development baseline for a Next.js web app, a FastAPI API, PostgreSQL with pgvector, Redis, a Celery worker, and a transactional outbox dispatcher.
 
-This repository does not include authentication, workspaces, document ingestion, RAG, embeddings, chat, Stripe, or Sentry.
+The API includes workspace/knowledge-base persistence, asynchronous PDF/TXT/Markdown ingestion, OpenAI embeddings, and pgvector semantic search. Authentication, answer-generating RAG/chat, Stripe, and Sentry remain outside this implementation. See [document ingestion](docs/architecture/document-ingestion.md) and its [validation report](docs/architecture/document-ingestion-validation.md).
 
 Local Compose is development-only. Production deploy, Nginx, TLS, backup, and rollback are documented in [docs/production.md](docs/production.md).
 
@@ -60,7 +60,7 @@ Replace `TASK_ID` with the `task_id` from the POST response. Repeat the GET unti
 
 - `apps/web` — Next.js App Router TypeScript app
 - `apps/api` — shared FastAPI and Celery Python package, SQLAlchemy, Alembic
-- `docker-compose.yml` — local source of truth for web, api, worker, postgres, and redis
+- `docker-compose.yml` — local source of truth for web, api, worker, outbox, postgres, and redis
 - `compose.production.yml` — VPS topology with loopback web/API ports and no source mounts
 - `docs/onboarding.md` — local diagnostic URLs and failure reading
 - `docs/production.md` — production deploy, verification, backup, and rollback
@@ -114,5 +114,7 @@ Operator runbook: [docs/production.md](docs/production.md).
 - If the web page fails to reach the API, confirm the browser is calling `http://localhost:<API_PORT>`. Do not set the API URL to `http://api:8000`.
 - If dependencies return 503, wait until `postgres` and `redis` are healthy: `docker compose ps`.
 - If the worker stays `PENDING`, confirm the `worker` service is running and Redis is healthy.
-- PostgreSQL image is `pgvector/pgvector:pg16` so the later vector extension is available. This baseline does not create RAG tables.
+- PostgreSQL image is `pgvector/pgvector:pg16` so the later vector extension is available. Apply Alembic migrations to create the ingestion tables and vector extension.
 - More diagnosis steps: [docs/onboarding.md](docs/onboarding.md).
+
+Uploads commit a document and outbox intent together. Run `docker compose exec api alembic upgrade head` before accepting uploads; keep the `outbox` service running to publish committed intents. Redis uses persistent AOF storage. See the [ingestion architecture](docs/architecture/document-ingestion.md) for rollout and delivery semantics.

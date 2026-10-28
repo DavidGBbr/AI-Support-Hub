@@ -1,0 +1,3 @@
+# The resolver uses a prebuilt optional binary; no install script is needed.
+ignoredBuiltDependencies:
+  - unrs-resolver

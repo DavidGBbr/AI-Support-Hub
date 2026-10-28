@@ -2,7 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.diagnostics import router as diagnostics_router
+from app.api.documents import router as documents_router
 from app.api.health import router as health_router
+from app.api.search import router as search_router
 from app.core.config import get_settings
 
 settings = get_settings()
@@ -17,3 +19,11 @@ app.add_middleware(
 )
 app.include_router(health_router)
 app.include_router(diagnostics_router)
+
+app.include_router(search_router)
+app.include_router(documents_router)
+
+# The production proxy supplies /api via ASGI root_path. Keep the original
+# direct/local URLs as hidden aliases; OpenAPI documents canonical /v1 routes.
+app.include_router(search_router, prefix="/api", include_in_schema=False)
+app.include_router(documents_router, prefix="/api", include_in_schema=False)

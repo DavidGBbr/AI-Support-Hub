@@ -21,6 +21,14 @@ class Settings(BaseSettings):
     redis_db: int = 0
     celery_result_db: int = 1
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    openai_api_key: str = ""
+    embedding_model: str = "text-embedding-3-small"
+    embedding_dimensions: int = 1536
+    chunk_size: int = 800
+    chunk_overlap: int = 120
+    document_storage_dir: str = "/data/documents"
+    semantic_search_default_k: int = 5
+    semantic_search_max_k: int = 20
 
     @property
     def sqlalchemy_url(self) -> str:

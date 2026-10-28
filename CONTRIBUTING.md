@@ -32,4 +32,4 @@ A repository administrator should require the `CI` workflow and at least one rev
 
 ## Out of scope
 
-Do not add product authentication, workspaces, document ingestion, RAG, embeddings, chat, Stripe, or Sentry on a local-development change. Production Compose, Nginx, and VPS steps belong in `compose.production.yml` and `docs/production.md`.
+Keep local-development changes separate from product features. The document-ingestion implementation includes workspace/knowledge-base persistence, extraction, embeddings, and semantic search; authentication, answer generation/chat, Stripe, and Sentry remain outside its scope. Production Compose, Nginx, and VPS steps belong in `compose.production.yml` and `docs/production.md`.

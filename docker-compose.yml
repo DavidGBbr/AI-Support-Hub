@@ -19,6 +19,9 @@ services:
 
   redis:
     image: redis:7-alpine
+    command: redis-server --appendonly yes --appendfsync always
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -56,6 +59,7 @@ services:
       start_period: 15s
     volumes:
       - ./apps/api:/app
+      - document_storage:/data/documents
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     networks:
       - aisupport
@@ -74,7 +78,26 @@ services:
         condition: service_healthy
     volumes:
       - ./apps/api:/app
+      - document_storage:/data/documents
     command: celery -A app.core.celery:celery_app worker --loglevel=info
+    networks:
+      - aisupport
+
+  outbox:
+    restart: unless-stopped
+    build:
+      context: ./apps/api
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+      - document_storage:/data/documents
+    command: python -m app.services.outbox
     networks:
       - aisupport
 
@@ -103,3 +126,5 @@ networks:
 volumes:
   postgres_data:
   web_node_modules:
+  document_storage:
+  redis_data:
