@@ -1,0 +1,44 @@
+{
+  "provider": "deterministic OpenAI-compatible HTTP stub",
+  "real_services": [
+    "API",
+    "PostgreSQL",
+    "pgvector",
+    "Redis",
+    "outbox dispatcher",
+    "Celery worker"
+  ],
+  "normal_flow": {
+    "document_id": "c47a5191-0a3d-48cd-9790-1188f6a65e02",
+    "id": "560197fb-6ebb-479f-9674-7854bf39b7bd",
+    "attempts": 1,
+    "published_at": "2026-10-28 17:38:59.856386+00:00",
+    "processed_at": "2026-10-28 17:38:59.903043+00:00",
+    "status": "READY",
+    "chunks": 1,
+    "search_status": 200
+  },
+  "dispatcher_crash_recovery": {
+    "document_id": "05809fbd-35a6-4079-8968-67d474a13d92",
+    "crash_point": "SIGKILL after Redis publish, before PostgreSQL commit",
+    "published_at_after_crash": null,
+    "messages_with_same_event_id": 2,
+    "embedding_calls_after_recovery": 1,
+    "id": "aecf5919-16f0-44ce-b1b5-b925dfa3a672",
+    "attempts": 1,
+    "published_at": "2026-10-28 17:39:59.637005+00:00",
+    "processed_at": "2026-10-28 17:40:06.463846+00:00",
+    "status": "READY",
+    "chunks": 1
+  },
+  "status": "passed",
+  "cleanup_errors": [],
+  "synthetic_test_records_removed": true,
+  "final_environment": {
+    "migration": "0003_document_outbox",
+    "documents_remaining": 0,
+    "outbox_remaining": 0,
+    "fault_triggers": 0,
+    "stub_endpoint_removed": true
+  }
+}

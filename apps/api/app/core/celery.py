@@ -13,6 +13,11 @@ celery_app.conf.update(
     result_serializer="json",
     task_always_eager=False,
     task_track_started=True,
+    broker_connection_timeout=3,
+    broker_transport_options={"socket_connect_timeout": 3, "socket_timeout": 5},
 )
 
+from app.tasks.document_ingestion import (  # noqa: E402
+    process_document_task as _process_document_task,  # noqa: F401
+)
 from app.tasks.test_worker import test_worker as _test_worker  # noqa: E402, F401

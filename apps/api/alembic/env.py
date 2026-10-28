@@ -4,6 +4,8 @@ from alembic import context
 from sqlalchemy import create_engine, pool
 
 from app.core.config import get_settings
+from app.models import domain as _domain  # noqa: F401
+from app.models.base import Base
 
 config = context.config
 settings = get_settings()
@@ -11,7 +13,7 @@ settings = get_settings()
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = None
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:

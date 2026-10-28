@@ -34,10 +34,10 @@ services:
 
   redis:
     image: redis:7-alpine
+    command: redis-server --appendonly yes --appendfsync always
+    volumes:
+      - redis_data:/data
     restart: unless-stopped
-    # Ephemeral by design: no volume. Recreating this container discards
-    # queued Celery jobs and task results. Acceptable while Redis is only
-    # the diagnostic-worker broker/result backend, not durable product state.
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -75,6 +75,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
+    volumes:
+      - document_storage:/data/documents
     logging: *default-logging
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --root-path /api
     networks:
@@ -93,8 +95,28 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    volumes:
+      - document_storage:/data/documents
     logging: *default-logging
     command: celery -A app.core.celery:celery_app worker --loglevel=info
+    networks:
+      - aisupport
+
+  outbox:
+    build:
+      context: ./apps/api
+    restart: unless-stopped
+    env_file: .env.production
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - document_storage:/data/documents
+    logging: *default-logging
+    command: python -m app.services.outbox
     networks:
       - aisupport
 
@@ -135,3 +157,7 @@ networks:
 volumes:
   postgres_data:
     name: aisupport-prod_postgres_data
+  document_storage:
+    name: aisupport-prod_document_storage
+  redis_data:
+    name: aisupport-prod_redis_data
