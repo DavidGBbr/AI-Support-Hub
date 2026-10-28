@@ -3,7 +3,7 @@
 ## Verified locally
 
 - Python 3.12.14; pytest 9.1.1; PostgreSQL 16 / pgvector 0.8.7.
-- Full suite: 37 passed, zero skipped, one Starlette/AnyIO deprecation warning.
+- Full suite: 45 passed, zero skipped, one Starlette/AnyIO deprecation warning.
 - Eleven outbox regression cases plus four existing vector-search/reprocessing integration tests.
 - Atomic upload and rollback when the intent cannot be inserted.
 - Restart after document/intent commit; publication failures remain eligible with safe errors and persistent backoff.
@@ -70,3 +70,10 @@ Migration 0003_document_outbox was applied to the existing local PostgreSQL data
 The temporary HTTP service emulated only the external embeddings API; production API, dispatcher, Celery worker, Redis, and PostgreSQL code paths were used. No real OpenAI request was made. A configured OpenAI key is still required for normal document embeddings.
 
 Detailed evidence: [outbox-local-e2e-report.json](outbox-local-e2e-report.json). The document IDs in that report refer to synthetic records removed after validation.
+
+
+## Local and production routing
+
+Canonical application routes use /v1/workspaces/... internally. Production Nginx strips the public /api prefix and Uvicorn supplies root_path=/api, so the public URLs remain /api/v1/workspaces/.... Existing direct/local /api/v1 URLs remain supported through aliases excluded from OpenAPI. Swagger advertises only canonical /v1 paths with the /api server root in production, avoiding /api/api/v1 URLs.
+
+Regression coverage checks successful upload, document retrieval, semantic search, and OpenAPI generation with both direct-local and production root_path scopes. PostgreSQL-backed ingestion/outbox tests independently cover transaction persistence.

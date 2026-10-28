@@ -8,7 +8,7 @@ from app.schemas.search import SemanticSearchRequest, SemanticSearchResponse
 from app.services.search import search_chunks
 
 router = APIRouter(
-    prefix="/api/v1/workspaces/{workspace_id}/knowledge-bases/{knowledge_base_id}"
+    prefix="/v1/workspaces/{workspace_id}/knowledge-bases/{knowledge_base_id}"
 )
 
 

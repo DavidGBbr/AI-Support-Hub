@@ -53,3 +53,10 @@ POST `/api/v1/workspaces/{workspace_id}/knowledge-bases/{knowledge_base_id}/sear
 ```
 
 The response includes document_id, content, score, and duration_ms. Authentication and answer-generating chat remain outside this implementation.
+
+
+## Local and production routing
+
+Canonical application routes use /v1/workspaces/... internally. Production Nginx strips the public /api prefix and Uvicorn supplies root_path=/api, so the public URLs remain /api/v1/workspaces/.... Existing direct/local /api/v1 URLs remain supported through aliases excluded from OpenAPI. Swagger advertises only canonical /v1 paths with the /api server root in production, avoiding /api/api/v1 URLs.
+
+Regression coverage checks successful upload, document retrieval, semantic search, and OpenAPI generation with both direct-local and production root_path scopes. PostgreSQL-backed ingestion/outbox tests independently cover transaction persistence.

@@ -22,3 +22,8 @@ app.include_router(diagnostics_router)
 
 app.include_router(search_router)
 app.include_router(documents_router)
+
+# The production proxy supplies /api via ASGI root_path. Keep the original
+# direct/local URLs as hidden aliases; OpenAPI documents canonical /v1 routes.
+app.include_router(search_router, prefix="/api", include_in_schema=False)
+app.include_router(documents_router, prefix="/api", include_in_schema=False)

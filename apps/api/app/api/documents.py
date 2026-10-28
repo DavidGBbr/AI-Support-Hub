@@ -12,7 +12,7 @@ from app.schemas.documents import DocumentResponse
 from app.services.extraction import MAX_FILE_BYTES, SUPPORTED_SUFFIXES
 
 router = APIRouter(
-    prefix="/api/v1/workspaces/{workspace_id}/knowledge-bases/{knowledge_base_id}/documents"
+    prefix="/v1/workspaces/{workspace_id}/knowledge-bases/{knowledge_base_id}/documents"
 )
 
 

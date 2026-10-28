@@ -6,6 +6,8 @@ The support API needs searchable PDF/TXT/Markdown knowledge-base content. Publis
 
 ## Scope
 
+- Fix production route prefixes: canonical /v1 routes combine with the proxy /api root exactly once; preserve direct/local /api/v1 aliases without duplicating OpenAPI operations.
+
 - Persist the document and a unique outbox intent atomically; upload returns HTTP 202 without contacting the broker.
 - Add migration 0003 with retry scheduling, publication/completion timestamps, due-event index, and recovery of legacy pending/dispatch-failed uploads.
 - Add an independent PostgreSQL-polling dispatcher with SKIP LOCKED, durable backoff, bounded broker connection time, and recovery after a crash before/after publication.
@@ -15,7 +17,9 @@ The support API needs searchable PDF/TXT/Markdown knowledge-base content. Publis
 
 ## Verification
 
-- [x] Full backend suite: 37 passed, zero skipped; one Starlette/AnyIO deprecation warning.
+- [x] Eight regression cases cover production root_path=/api and local compatibility for upload, document lookup, search, and OpenAPI.
+
+- [x] Full backend suite: 45 passed, zero skipped; one Starlette/AnyIO deprecation warning.
 - [x] Eleven outbox cases cover atomic upload/rollback, restart recovery, broker backoff, crashes before/after publication, competing dispatchers, concurrent duplicate consumers, atomic completion rollback, worker crash/redelivery, and cold publisher initialization.
 - [x] PostgreSQL 16 / pgvector 0.8.7 integration tests and migration 0003 applied to the isolated test database.
 - [x] Separate empty-database upgrade, legacy backfill assertions, downgrade preserving documents, re-upgrade, and Alembic metadata comparison.
